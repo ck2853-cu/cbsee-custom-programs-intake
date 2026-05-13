@@ -45,6 +45,49 @@
             <p>
               This intake captures the fields needed to qualify and prioritize custom program demand in CRM.
             </p>
+            <div class="live-score" aria-live="polite">
+              <div class="live-score-header">
+                <div>
+                  <p class="score-label">Opportunity Quality Score</p>
+                  <p class="score-note">Prototype sample</p>
+                </div>
+                <strong id="live-oqs-score">0</strong>
+              </div>
+              <div class="score-meter" aria-hidden="true">
+                <span id="live-oqs-meter"></span>
+              </div>
+              <p id="live-oqs-tier" class="tier-label">Early qualification</p>
+              <dl class="score-breakdown">
+                <div>
+                  <dt>Decision level</dt>
+                  <dd><span id="score-seniority">0</span>/18</dd>
+                </div>
+                <div>
+                  <dt>Audience</dt>
+                  <dd><span id="score-audience">0</span>/15</dd>
+                </div>
+                <div>
+                  <dt>Timeline</dt>
+                  <dd><span id="score-timeline">0</span>/15</dd>
+                </div>
+                <div>
+                  <dt>Budget</dt>
+                  <dd><span id="score-budget">0</span>/18</dd>
+                </div>
+                <div>
+                  <dt>Client status</dt>
+                  <dd><span id="score-client">0</span>/8</dd>
+                </div>
+                <div>
+                  <dt>Lead profile</dt>
+                  <dd><span id="score-profile">0</span>/16</dd>
+                </div>
+                <div>
+                  <dt>Challenge detail</dt>
+                  <dd><span id="score-detail">0</span>/10</dd>
+                </div>
+              </dl>
+            </div>
           </aside>
 
           <form id="opportunity-form" class="intake-form" autocomplete="on">

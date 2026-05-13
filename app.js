@@ -126,11 +126,23 @@ const selectConfig = {
 const form = document.querySelector("#opportunity-form");
 const successView = document.querySelector("#success-view");
 const formBand = document.querySelector("#intake");
+const liveScoreNode = document.querySelector("#live-oqs-score");
+const liveMeterNode = document.querySelector("#live-oqs-meter");
+const liveTierNode = document.querySelector("#live-oqs-tier");
 const scoreNode = document.querySelector("#oqs-score");
 const meterNode = document.querySelector("#oqs-meter");
 const tierNode = document.querySelector("#oqs-tier");
 const summaryNode = document.querySelector("#submission-summary");
 const newEntryButton = document.querySelector("#new-entry");
+const scoreBreakdownNodes = {
+  seniority: document.querySelector("#score-seniority"),
+  audience: document.querySelector("#score-audience"),
+  timeline: document.querySelector("#score-timeline"),
+  budget: document.querySelector("#score-budget"),
+  client: document.querySelector("#score-client"),
+  profile: document.querySelector("#score-profile"),
+  detail: document.querySelector("#score-detail")
+};
 
 function populateSelect(id, options) {
   const select = document.getElementById(id);
@@ -150,10 +162,21 @@ function populateSelect(id, options) {
 }
 
 function getFormValues() {
-  return Object.fromEntries(new FormData(form).entries());
+  return {
+    ...Object.fromEntries(Object.keys(fieldLabels).map((name) => [name, ""])),
+    ...Object.fromEntries(new FormData(form).entries())
+  };
 }
 
-function calculateSampleOqs(values) {
+function scoreTextDepth(value) {
+  const length = value.trim().length;
+  if (length >= 240) return 5;
+  if (length >= 120) return 4;
+  if (length >= 40) return 2;
+  return 0;
+}
+
+function calculateOqs(values) {
   const seniorityScore = {
     "C-Suite": 18,
     "Board Member": 16,
@@ -189,21 +212,32 @@ function calculateSampleOqs(values) {
     "Prefer not to say": 0
   };
 
-  const challengeDepth = values.businessChallenge.trim().length >= 120 ? 4 : 0;
-  const objectiveDepth = values.objectives.trim().length >= 120 ? 4 : 0;
-  const clientScore = values.existingClient === "Yes" ? 8 : 3;
+  const breakdown = {
+    seniority: seniorityScore[values.seniority] || 0,
+    audience: audienceScore[values.audience] || 0,
+    timeline: timelineScore[values.deliveryTimeline] || 0,
+    budget: budgetScore[values.budget] || 0,
+    client: values.existingClient === "Yes" ? 8 : values.existingClient === "No" ? 3 : 0,
+    profile: 0,
+    detail: 0
+  };
 
-  const rawScore =
-    40 +
-    (seniorityScore[values.seniority] || 0) +
-    (audienceScore[values.audience] || 0) +
-    (timelineScore[values.deliveryTimeline] || 0) +
-    (budgetScore[values.budget] || 0) +
-    clientScore +
-    challengeDepth +
-    objectiveDepth;
+  breakdown.profile += values.firstName.trim() ? 2 : 0;
+  breakdown.profile += values.lastName.trim() ? 2 : 0;
+  breakdown.profile += form.elements.email.validity.valid && values.email.trim() ? 2 : 0;
+  breakdown.profile += values.title.trim() ? 2 : 0;
+  breakdown.profile += values.companyName.trim() ? 2 : 0;
+  breakdown.profile += values.industry ? 3 : 0;
+  breakdown.profile += values.country ? 3 : 0;
+  breakdown.detail += scoreTextDepth(values.businessChallenge);
+  breakdown.detail += scoreTextDepth(values.objectives);
 
-  return Math.min(100, Math.max(0, rawScore));
+  const total = Object.values(breakdown).reduce((sum, value) => sum + value, 0);
+
+  return {
+    score: Math.min(100, Math.max(0, total)),
+    breakdown
+  };
 }
 
 function getTier(score) {
@@ -211,6 +245,26 @@ function getTier(score) {
   if (score >= 70) return "Strong opportunity";
   if (score >= 55) return "Developing opportunity";
   return "Early qualification";
+}
+
+function updateScoreView(targets, result) {
+  targets.score.textContent = String(result.score);
+  targets.meter.style.width = `${result.score}%`;
+  targets.tier.textContent = getTier(result.score);
+}
+
+function updateLiveScore() {
+  const result = calculateOqs(getFormValues());
+
+  updateScoreView({
+    score: liveScoreNode,
+    meter: liveMeterNode,
+    tier: liveTierNode
+  }, result);
+
+  Object.entries(scoreBreakdownNodes).forEach(([key, node]) => {
+    node.textContent = String(result.breakdown[key]);
+  });
 }
 
 function renderSummary(values) {
@@ -232,10 +286,13 @@ function renderSummary(values) {
 }
 
 function showSuccess(values) {
-  const score = calculateSampleOqs(values);
-  scoreNode.textContent = String(score);
-  meterNode.style.width = `${score}%`;
-  tierNode.textContent = getTier(score);
+  const result = calculateOqs(values);
+
+  updateScoreView({
+    score: scoreNode,
+    meter: meterNode,
+    tier: tierNode
+  }, result);
   renderSummary(values);
 
   formBand.hidden = true;
@@ -246,6 +303,9 @@ function showSuccess(values) {
 Object.entries(selectConfig).forEach(([id, options]) => {
   populateSelect(id, options);
 });
+
+form.addEventListener("input", updateLiveScore);
+form.addEventListener("change", updateLiveScore);
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -259,7 +319,10 @@ form.addEventListener("submit", (event) => {
 
 newEntryButton.addEventListener("click", () => {
   form.reset();
+  updateLiveScore();
   successView.hidden = true;
   formBand.hidden = false;
   formBand.scrollIntoView({ behavior: "smooth", block: "start" });
 });
+
+updateLiveScore();
