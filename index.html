@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Programs Opportunity Intake</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="page-shell header-inner">
+        <a class="brand-lockup" href="#opportunity-form" aria-label="Columbia Business School Executive Education">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span>Columbia Business School</span>
+            <span>Executive Education</span>
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro-band">
+        <div class="page-shell intro-grid">
+          <div class="intro-copy">
+            <p class="eyebrow">Custom Programs</p>
+            <h1>Opportunity Intake</h1>
+            <p>
+              Tell us about the leadership challenge, the audience, and the timing for a client-specific learning experience.
+            </p>
+          </div>
+          <div class="intro-meta" aria-label="Program focus">
+            <span>Closed cohort</span>
+            <span>Client designed</span>
+            <span>Salesforce ready</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-band" id="intake">
+        <div class="page-shell form-layout">
+          <aside class="form-rail" aria-label="Opportunity context">
+            <p class="rail-kicker">Columbia Business School Executive Education</p>
+            <h2>Custom learning for organizational priorities</h2>
+            <p>
+              This intake captures the fields needed to qualify and prioritize custom program demand in CRM.
+            </p>
+          </aside>
+
+          <form id="opportunity-form" class="intake-form" autocomplete="on">
+            <div class="form-field">
+              <label for="firstName">First Name</label>
+              <input id="firstName" name="firstName" type="text" autocomplete="given-name" required>
+            </div>
+
+            <div class="form-field">
+              <label for="lastName">Last Name</label>
+              <input id="lastName" name="lastName" type="text" autocomplete="family-name" required>
+            </div>
+
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="form-field">
+              <label for="title">Title</label>
+              <input id="title" name="title" type="text" autocomplete="organization-title" required>
+            </div>
+
+            <div class="form-field">
+              <label for="seniority">Seniority Level</label>
+              <select id="seniority" name="seniority" required></select>
+            </div>
+
+            <div class="form-field">
+              <label for="companyName">Company Name</label>
+              <input id="companyName" name="companyName" type="text" autocomplete="organization" required>
+            </div>
+
+            <div class="form-field">
+              <label for="industry">Industry</label>
+              <select id="industry" name="industry" required></select>
+            </div>
+
+            <div class="form-field">
+              <label for="country">Country of Business</label>
+              <select id="country" name="country" required></select>
+            </div>
+
+            <div class="form-field form-field-wide">
+              <label for="businessChallenge">Business Challenge</label>
+              <textarea id="businessChallenge" name="businessChallenge" rows="5" required></textarea>
+            </div>
+
+            <div class="form-field form-field-wide">
+              <label for="objectives">Objectives</label>
+              <textarea id="objectives" name="objectives" rows="5" required></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="audience">Audience</label>
+              <select id="audience" name="audience" required></select>
+            </div>
+
+            <div class="form-field">
+              <label for="deliveryTimeline">Delivery Timeline</label>
+              <select id="deliveryTimeline" name="deliveryTimeline" required></select>
+            </div>
+
+            <div class="form-field">
+              <label for="budget">Budget</label>
+              <select id="budget" name="budget" required></select>
+            </div>
+
+            <div class="form-field">
+              <label for="existingClient">Are You An Existing Client?</label>
+              <select id="existingClient" name="existingClient" required></select>
+            </div>
+
+            <div class="form-actions">
+              <button class="primary-button" type="submit">
+                <span>Submit Opportunity</span>
+                <span aria-hidden="true">-&gt;</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="success-view" class="success-band" hidden aria-live="polite">
+        <div class="page-shell success-layout">
+          <div class="score-summary">
+            <p class="eyebrow">Submitted</p>
+            <h2>Opportunity captured</h2>
+            <div class="oqs-block">
+              <div>
+                <p class="score-label">Opportunity Quality Score</p>
+                <p class="score-note">Prototype sample</p>
+              </div>
+              <strong id="oqs-score">0</strong>
+            </div>
+            <div class="score-meter" aria-hidden="true">
+              <span id="oqs-meter"></span>
+            </div>
+            <p id="oqs-tier" class="tier-label"></p>
+            <button id="new-entry" class="secondary-button" type="button">Start Another Entry</button>
+          </div>
+
+          <div>
+            <h2 class="summary-title">Entered Values</h2>
+            <dl id="submission-summary" class="submission-summary"></dl>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
