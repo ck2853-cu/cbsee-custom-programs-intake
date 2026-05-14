@@ -19,6 +19,7 @@
         <nav class="site-nav" aria-label="Primary navigation">
           <a href="index.html" aria-current="page">Intake</a>
           <a href="submissions.html">Submissions</a>
+          <a href="feedback.html">Feedback</a>
         </nav>
       </div>
     </header>
@@ -42,6 +43,20 @@
       </section>
 
       <section class="form-band" id="intake">
+        <div class="page-shell feedback-setup" aria-label="Feedback setup">
+          <div>
+            <p class="eyebrow">Team Feedback</p>
+            <h2>Review the intake experience in context</h2>
+          </div>
+          <div class="feedback-controls">
+            <div class="form-field compact-field reviewer-field">
+              <label for="reviewer-name">Your Name</label>
+              <input id="reviewer-name" name="reviewer-name" type="text" autocomplete="name">
+            </div>
+            <button id="feedback-mode-toggle" class="secondary-button compact-button" type="button" aria-pressed="false">Feedback Mode Off</button>
+            <a class="secondary-link compact-link" href="feedback.html">View Feedback</a>
+          </div>
+        </div>
         <div class="page-shell form-layout">
           <aside class="form-rail" aria-label="Opportunity context">
             <p class="rail-kicker">Columbia Business School Executive Education</p>
@@ -95,72 +110,72 @@
           </aside>
 
           <form id="opportunity-form" class="intake-form" autocomplete="on">
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="firstName" data-feedback-label="First Name Field" data-feedback-type="field">
               <label for="firstName">First Name</label>
               <input id="firstName" name="firstName" type="text" autocomplete="given-name" required>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="lastName" data-feedback-label="Last Name Field" data-feedback-type="field">
               <label for="lastName">Last Name</label>
               <input id="lastName" name="lastName" type="text" autocomplete="family-name" required>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="email" data-feedback-label="Email Field" data-feedback-type="field">
               <label for="email">Email</label>
               <input id="email" name="email" type="email" autocomplete="email" required>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="title" data-feedback-label="Title Field" data-feedback-type="field">
               <label for="title">Title</label>
               <input id="title" name="title" type="text" autocomplete="organization-title" required>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="seniority" data-feedback-label="Seniority Level Field" data-feedback-type="field">
               <label for="seniority">Seniority Level</label>
               <select id="seniority" name="seniority" required></select>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="companyName" data-feedback-label="Company Name Field" data-feedback-type="field">
               <label for="companyName">Company Name</label>
               <input id="companyName" name="companyName" type="text" autocomplete="organization" required>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="industry" data-feedback-label="Industry Field" data-feedback-type="field">
               <label for="industry">Industry</label>
               <select id="industry" name="industry" required></select>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="country" data-feedback-label="Country of Business Field" data-feedback-type="field">
               <label for="country">Country of Business</label>
               <select id="country" name="country" required></select>
             </div>
 
-            <div class="form-field form-field-wide">
+            <div class="form-field form-field-wide feedback-target" data-feedback-id="businessChallenge" data-feedback-label="Business Challenge Field" data-feedback-type="field">
               <label for="businessChallenge">Business Challenge</label>
               <textarea id="businessChallenge" name="businessChallenge" rows="5" required></textarea>
             </div>
 
-            <div class="form-field form-field-wide">
+            <div class="form-field form-field-wide feedback-target" data-feedback-id="objectives" data-feedback-label="Objectives Field" data-feedback-type="field">
               <label for="objectives">Objectives</label>
               <textarea id="objectives" name="objectives" rows="5" required></textarea>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="audience" data-feedback-label="Audience Field" data-feedback-type="field">
               <label for="audience">Audience</label>
               <select id="audience" name="audience" required></select>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="deliveryTimeline" data-feedback-label="Delivery Timeline Field" data-feedback-type="field">
               <label for="deliveryTimeline">Delivery Timeline</label>
               <select id="deliveryTimeline" name="deliveryTimeline" required></select>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="budget" data-feedback-label="Budget Field" data-feedback-type="field">
               <label for="budget">Budget</label>
               <select id="budget" name="budget" required></select>
             </div>
 
-            <div class="form-field">
+            <div class="form-field feedback-target" data-feedback-id="existingClient" data-feedback-label="Existing Client Field" data-feedback-type="field">
               <label for="existingClient">Are You An Existing Client?</label>
               <select id="existingClient" name="existingClient" required></select>
             </div>

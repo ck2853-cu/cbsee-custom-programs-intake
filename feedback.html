@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Programs Feedback</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="page-shell header-inner">
+        <a class="brand-lockup" href="index.html" aria-label="Columbia Business School Executive Education">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span>Columbia Business School</span>
+            <span>Executive Education</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="index.html">Intake</a>
+          <a href="submissions.html">Submissions</a>
+          <a href="feedback.html" aria-current="page">Feedback</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="ops-band">
+        <div class="page-shell ops-header">
+          <div>
+            <p class="eyebrow">Team Alignment</p>
+            <h1>Feedback Summary</h1>
+            <p>
+              See who provided feedback, which fields matter most, and how the team thinks each element should influence opportunity qualification.
+            </p>
+          </div>
+          <a class="secondary-link" href="index.html">Review Intake</a>
+        </div>
+      </section>
+
+      <section class="submissions-band">
+        <div class="page-shell">
+          <div class="summary-strip" aria-label="Feedback summary">
+            <div>
+              <span id="metric-feedback-total">0</span>
+              <p>Total feedback</p>
+            </div>
+            <div>
+              <span id="metric-reviewers">0</span>
+              <p>Reviewers</p>
+            </div>
+            <div>
+              <span id="metric-avg-importance">0</span>
+              <p>Avg importance</p>
+            </div>
+            <div>
+              <span id="metric-oqs-yes">0</span>
+              <p>Should affect OQS</p>
+            </div>
+          </div>
+
+          <div class="table-toolbar feedback-toolbar">
+            <div class="form-field compact-field">
+              <label for="feedback-search">Search</label>
+              <input id="feedback-search" name="feedback-search" type="search" autocomplete="off">
+            </div>
+            <div class="form-field compact-field">
+              <label for="reviewer-filter">Reviewer</label>
+              <select id="reviewer-filter" name="reviewer-filter"></select>
+            </div>
+            <div class="form-field compact-field">
+              <label for="element-filter">Element</label>
+              <select id="element-filter" name="element-filter"></select>
+            </div>
+            <div class="feedback-action-row">
+              <button id="export-json" class="secondary-button compact-button" type="button">Export JSON</button>
+              <button id="export-csv" class="secondary-button compact-button" type="button">Export CSV</button>
+              <button id="import-json" class="secondary-button compact-button" type="button">Import JSON</button>
+              <input id="import-file" type="file" accept="application/json,.json" hidden>
+            </div>
+          </div>
+
+          <div class="feedback-panels">
+            <section class="feedback-panel">
+              <h2>Element Alignment</h2>
+              <div id="element-summary" class="element-summary-list"></div>
+            </section>
+            <section class="feedback-panel">
+              <h2>Reviewer Activity</h2>
+              <div id="reviewer-summary" class="reviewer-summary-list"></div>
+            </section>
+          </div>
+
+          <div class="table-frame">
+            <table class="submissions-table feedback-table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Reviewer</th>
+                  <th scope="col">Element</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Importance</th>
+                  <th scope="col">Affects OQS</th>
+                  <th scope="col">Weight</th>
+                  <th scope="col">Required</th>
+                  <th scope="col">Purpose</th>
+                  <th scope="col">Strong Answer Definition</th>
+                  <th scope="col">Comment</th>
+                </tr>
+              </thead>
+              <tbody id="feedback-body"></tbody>
+            </table>
+          </div>
+          <p id="feedback-empty-state" class="empty-state" hidden>No feedback matches the current filters.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="feedback.js"></script>
+  </body>
+</html>

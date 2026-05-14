@@ -135,6 +135,11 @@ const tierNode = document.querySelector("#oqs-tier");
 const summaryNode = document.querySelector("#submission-summary");
 const newEntryButton = document.querySelector("#new-entry");
 const storageKey = "cbseeCustomProgramSubmissions";
+const feedbackStorageKey = "cbseeCustomProgramFeedback";
+const reviewerStorageKey = "cbseeFeedbackReviewer";
+const feedbackModeStorageKey = "cbseeFeedbackMode";
+const reviewerNameNode = document.querySelector("#reviewer-name");
+const feedbackModeToggle = document.querySelector("#feedback-mode-toggle");
 const scoreBreakdownNodes = {
   seniority: document.querySelector("#score-seniority"),
   audience: document.querySelector("#score-audience"),
@@ -317,6 +322,240 @@ function savePrototypeSubmission(values) {
   localStorage.setItem(storageKey, JSON.stringify([submission, ...existing]));
 }
 
+function getStoredFeedback() {
+  return JSON.parse(localStorage.getItem(feedbackStorageKey) || "[]");
+}
+
+function setStoredFeedback(records) {
+  localStorage.setItem(feedbackStorageKey, JSON.stringify(records));
+}
+
+function getReviewerName() {
+  return (reviewerNameNode.value || "").trim();
+}
+
+function setFeedbackMode(isOn) {
+  document.body.classList.toggle("is-feedback-mode", isOn);
+  feedbackModeToggle.setAttribute("aria-pressed", String(isOn));
+  feedbackModeToggle.textContent = isOn ? "Feedback Mode On" : "Feedback Mode Off";
+  localStorage.setItem(feedbackModeStorageKey, isOn ? "on" : "off");
+}
+
+function updateFeedbackButtonCounts() {
+  const feedbackRecords = getStoredFeedback();
+  document.querySelectorAll("[data-feedback-button]").forEach((button) => {
+    const count = feedbackRecords.filter((record) => record.elementId === button.dataset.feedbackButton).length;
+    button.textContent = count ? `Feedback ${count}` : "Feedback";
+  });
+}
+
+function createDrawerField(labelText, inputNode) {
+  const wrapper = document.createElement("label");
+  wrapper.className = "drawer-field";
+  const label = document.createElement("span");
+  label.textContent = labelText;
+  wrapper.append(label, inputNode);
+  return wrapper;
+}
+
+function createSelect(name, options) {
+  const select = document.createElement("select");
+  select.name = name;
+  select.required = true;
+
+  options.forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    select.append(option);
+  });
+
+  return select;
+}
+
+function buildFeedbackDrawer() {
+  const drawer = document.createElement("aside");
+  drawer.className = "feedback-drawer";
+  drawer.hidden = true;
+  drawer.setAttribute("aria-label", "Element feedback panel");
+
+  const closeIconButton = document.createElement("button");
+  closeIconButton.className = "drawer-close-button";
+  closeIconButton.type = "button";
+  closeIconButton.setAttribute("aria-label", "Close feedback panel");
+  closeIconButton.textContent = "X";
+
+  const title = document.createElement("h2");
+  title.textContent = "Element Feedback";
+
+  const targetLabel = document.createElement("p");
+  targetLabel.className = "drawer-target";
+
+  const form = document.createElement("form");
+  form.id = "feedback-form";
+  form.className = "feedback-form";
+
+  const reviewer = document.createElement("input");
+  reviewer.name = "reviewerName";
+  reviewer.type = "text";
+  reviewer.required = true;
+
+  const importance = createSelect("importance", [
+    ["1", "1 - Not useful"],
+    ["2", "2 - Low value"],
+    ["3", "3 - Useful"],
+    ["4", "4 - Important"],
+    ["5", "5 - Critical"]
+  ]);
+
+  const affectsOqs = createSelect("affectsOqs", [
+    ["Yes", "Yes"],
+    ["Maybe", "Maybe"],
+    ["No", "No"]
+  ]);
+
+  const suggestedWeight = createSelect("suggestedWeight", [
+    ["None", "No weight"],
+    ["Low", "Low"],
+    ["Medium", "Medium"],
+    ["High", "High"],
+    ["Critical", "Critical"]
+  ]);
+
+  const requiredPreference = createSelect("requiredPreference", [
+    ["Required", "Required"],
+    ["Optional", "Optional"],
+    ["Conditional", "Conditional"],
+    ["Unsure", "Unsure"]
+  ]);
+
+  const businessPurpose = createSelect("businessPurpose", [
+    ["Qualification", "Qualification"],
+    ["Prioritization", "Prioritization"],
+    ["Routing", "Routing"],
+    ["Proposal readiness", "Proposal readiness"],
+    ["Faculty/program fit", "Faculty/program fit"],
+    ["Relationship strategy", "Relationship strategy"],
+    ["Not sure", "Not sure"]
+  ]);
+
+  const strongAnswerDefinition = document.createElement("textarea");
+  strongAnswerDefinition.name = "strongAnswerDefinition";
+  strongAnswerDefinition.rows = 4;
+
+  const comment = document.createElement("textarea");
+  comment.name = "comment";
+  comment.rows = 4;
+
+  const actions = document.createElement("div");
+  actions.className = "drawer-actions";
+
+  const saveButton = document.createElement("button");
+  saveButton.className = "primary-button";
+  saveButton.type = "submit";
+  saveButton.textContent = "Save Feedback";
+
+  const closeButton = document.createElement("button");
+  closeButton.className = "secondary-button";
+  closeButton.type = "button";
+  closeButton.textContent = "Close";
+
+  actions.append(saveButton, closeButton);
+  form.append(
+    createDrawerField("Reviewer", reviewer),
+    createDrawerField("Importance", importance),
+    createDrawerField("Should affect OQS?", affectsOqs),
+    createDrawerField("Suggested weight", suggestedWeight),
+    createDrawerField("Required preference", requiredPreference),
+    createDrawerField("Business purpose", businessPurpose),
+    createDrawerField("Strong answer definition", strongAnswerDefinition),
+    createDrawerField("Comment", comment),
+    actions
+  );
+  drawer.append(closeIconButton, title, targetLabel, form);
+  document.body.append(drawer);
+
+  closeIconButton.addEventListener("click", () => {
+    drawer.hidden = true;
+  });
+
+  closeButton.addEventListener("click", () => {
+    drawer.hidden = true;
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const record = {
+      id: `feedback-${Date.now()}`,
+      reviewerName: form.elements.reviewerName.value.trim(),
+      elementId: drawer.dataset.elementId,
+      elementLabel: drawer.dataset.elementLabel,
+      elementType: drawer.dataset.elementType,
+      importance: Number(form.elements.importance.value),
+      affectsOqs: form.elements.affectsOqs.value,
+      suggestedWeight: form.elements.suggestedWeight.value,
+      requiredPreference: form.elements.requiredPreference.value,
+      businessPurpose: form.elements.businessPurpose.value,
+      strongAnswerDefinition: form.elements.strongAnswerDefinition.value.trim(),
+      comment: form.elements.comment.value.trim(),
+      createdAt: new Date().toISOString()
+    };
+
+    if (!record.reviewerName) {
+      form.elements.reviewerName.reportValidity();
+      return;
+    }
+
+    reviewerNameNode.value = record.reviewerName;
+    localStorage.setItem(reviewerStorageKey, record.reviewerName);
+    setStoredFeedback([record, ...getStoredFeedback()]);
+    updateFeedbackButtonCounts();
+    form.reset();
+    drawer.hidden = true;
+  });
+
+  return drawer;
+}
+
+const feedbackDrawer = buildFeedbackDrawer();
+
+function openFeedbackDrawer(target) {
+  const reviewerName = getReviewerName();
+  feedbackDrawer.dataset.elementId = target.dataset.feedbackId;
+  feedbackDrawer.dataset.elementLabel = target.dataset.feedbackLabel;
+  feedbackDrawer.dataset.elementType = target.dataset.feedbackType;
+  feedbackDrawer.querySelector(".drawer-target").textContent = target.dataset.feedbackLabel;
+  feedbackDrawer.querySelector("[name='reviewerName']").value = reviewerName;
+  feedbackDrawer.hidden = false;
+  feedbackDrawer.querySelector("[name='importance']").focus();
+}
+
+function initializeFeedbackLayer() {
+  reviewerNameNode.value = localStorage.getItem(reviewerStorageKey) || "";
+
+  document.querySelectorAll("[data-feedback-id]").forEach((target) => {
+    const button = document.createElement("button");
+    button.className = "feedback-button";
+    button.type = "button";
+    button.dataset.feedbackButton = target.dataset.feedbackId;
+    button.textContent = "Feedback";
+    button.addEventListener("click", () => openFeedbackDrawer(target));
+    target.append(button);
+  });
+
+  reviewerNameNode.addEventListener("input", () => {
+    localStorage.setItem(reviewerStorageKey, getReviewerName());
+  });
+
+  feedbackModeToggle.addEventListener("click", () => {
+    setFeedbackMode(!document.body.classList.contains("is-feedback-mode"));
+  });
+
+  setFeedbackMode(localStorage.getItem(feedbackModeStorageKey) === "on");
+  updateFeedbackButtonCounts();
+}
+
 Object.entries(selectConfig).forEach(([id, options]) => {
   populateSelect(id, options);
 });
@@ -345,3 +584,4 @@ newEntryButton.addEventListener("click", () => {
 });
 
 updateLiveScore();
+initializeFeedbackLayer();
