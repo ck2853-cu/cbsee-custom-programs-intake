@@ -59,6 +59,8 @@ button {
   min-height: 74px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 28px;
 }
 
 .brand-lockup {
@@ -101,6 +103,30 @@ button {
   color: var(--color-c-gray-70);
   font-size: 12px;
   font-weight: 600;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-left: auto;
+}
+
+.site-nav a {
+  border-bottom: 2px solid transparent;
+  color: var(--color-c-gray-70);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 74px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.site-nav a:hover,
+.site-nav a:focus,
+.site-nav a[aria-current="page"] {
+  border-bottom-color: var(--color-blue-40);
+  color: var(--color-c-gray-90);
 }
 
 .intro-band {
@@ -379,6 +405,195 @@ h1 {
   background: var(--color-white);
 }
 
+.ops-band {
+  background: var(--color-c-gray-5);
+  border-bottom: 1px solid var(--color-c-gray-20);
+}
+
+.ops-header {
+  min-height: 214px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 44px 0 36px;
+}
+
+.ops-header > div {
+  max-width: 830px;
+}
+
+.ops-header h1 {
+  margin-top: 14px;
+}
+
+.ops-header p:last-child {
+  max-width: 720px;
+  margin: 18px 0 0;
+  color: var(--color-c-gray-70);
+  font-size: 18px;
+}
+
+.secondary-link {
+  min-width: 132px;
+  border: 1px solid var(--color-gray-30);
+  padding: 16px 20px;
+  color: var(--color-c-gray-90);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.secondary-link:hover,
+.secondary-link:focus {
+  background: var(--color-c-gray-90);
+  border-color: var(--color-c-gray-90);
+  color: var(--color-white);
+}
+
+.submissions-band {
+  padding: 34px 0 72px;
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 2px solid var(--color-c-gray-90);
+  border-bottom: 1px solid var(--color-c-gray-20);
+}
+
+.summary-strip div {
+  min-width: 0;
+  padding: 22px 24px 22px 0;
+}
+
+.summary-strip div:not(:first-child) {
+  padding-left: 24px;
+  border-left: 1px solid var(--color-c-gray-20);
+}
+
+.summary-strip span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.summary-strip p {
+  margin: 8px 0 0;
+  color: var(--color-c-gray-70);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.table-toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(180px, 240px);
+  gap: 24px;
+  align-items: end;
+  margin-top: 32px;
+}
+
+.compact-field input,
+.compact-field select {
+  min-height: 40px;
+}
+
+.table-frame {
+  width: 100%;
+  margin-top: 28px;
+  overflow-x: auto;
+  border-top: 2px solid var(--color-c-gray-90);
+  border-bottom: 1px solid var(--color-c-gray-20);
+}
+
+.submissions-table {
+  width: 100%;
+  min-width: 1720px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.submissions-table th,
+.submissions-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-c-gray-20);
+  text-align: left;
+  vertical-align: top;
+}
+
+.submissions-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-white);
+  color: var(--color-c-gray-70);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.submissions-table tbody tr:hover {
+  background: var(--color-c-gray-5);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.strong-cell {
+  font-weight: 700;
+}
+
+.long-cell {
+  min-width: 320px;
+  max-width: 380px;
+}
+
+.oqs-badge,
+.status-badge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  border: 1px solid var(--color-c-gray-20);
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.oqs-badge {
+  min-width: 42px;
+  justify-content: center;
+  background: var(--color-c-gray-10);
+  color: var(--color-c-gray-90);
+}
+
+.oqs-badge.is-strong {
+  border-color: var(--color-blue-40);
+  background: var(--color-blue-5, #d8f2fd);
+}
+
+.oqs-badge.is-priority {
+  background: var(--color-c-gray-90);
+  border-color: var(--color-c-gray-90);
+  color: var(--color-white);
+}
+
+.status-badge {
+  background: var(--color-white);
+  color: var(--color-c-gray-80);
+}
+
+.empty-state {
+  margin: 24px 0 0;
+  color: var(--color-c-gray-70);
+  font-weight: 700;
+}
+
 .success-layout {
   display: grid;
   grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
@@ -478,9 +693,14 @@ h1 {
 @media (max-width: 880px) {
   .intro-grid,
   .form-layout,
-  .success-layout {
+  .success-layout,
+  .ops-header {
     grid-template-columns: 1fr;
     gap: 34px;
+  }
+
+  .ops-header {
+    display: grid;
   }
 
   .intro-grid {
@@ -504,6 +724,11 @@ h1 {
   .submission-summary {
     grid-template-columns: 1fr;
   }
+
+  .summary-strip,
+  .table-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
@@ -523,16 +748,48 @@ h1 {
     font-size: 11px;
   }
 
+  .header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0 0;
+  }
+
+  .site-nav {
+    width: 100%;
+    gap: 18px;
+  }
+
+  .site-nav a {
+    line-height: 42px;
+  }
+
   h1 {
     font-size: 36px;
   }
 
   .form-band,
-  .success-band {
+  .success-band,
+  .submissions-band {
     padding: 40px 0 62px;
   }
 
-.form-rail h2,
+  .summary-strip,
+  .table-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-strip div,
+  .summary-strip div:not(:first-child) {
+    padding: 18px 0;
+    border-left: 0;
+  }
+
+  .summary-strip div:not(:first-child) {
+    border-top: 1px solid var(--color-c-gray-20);
+  }
+
+  .form-rail h2,
   .score-summary h2,
   .summary-title {
     font-size: 28px;

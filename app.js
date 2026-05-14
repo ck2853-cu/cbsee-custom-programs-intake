@@ -134,6 +134,7 @@ const meterNode = document.querySelector("#oqs-meter");
 const tierNode = document.querySelector("#oqs-tier");
 const summaryNode = document.querySelector("#submission-summary");
 const newEntryButton = document.querySelector("#new-entry");
+const storageKey = "cbseeCustomProgramSubmissions";
 const scoreBreakdownNodes = {
   seniority: document.querySelector("#score-seniority"),
   audience: document.querySelector("#score-audience"),
@@ -300,6 +301,22 @@ function showSuccess(values) {
   successView.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function savePrototypeSubmission(values) {
+  const result = calculateOqs(values);
+  const existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  const submission = {
+    ...values,
+    id: `local-${Date.now()}`,
+    receivedAt: new Date().toISOString(),
+    oqs: result.score,
+    tier: getTier(result.score),
+    status: result.score >= 85 ? "Prioritize" : result.score >= 70 ? "Discovery" : "Review",
+    owner: "Unassigned"
+  };
+
+  localStorage.setItem(storageKey, JSON.stringify([submission, ...existing]));
+}
+
 Object.entries(selectConfig).forEach(([id, options]) => {
   populateSelect(id, options);
 });
@@ -314,7 +331,9 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  showSuccess(getFormValues());
+  const values = getFormValues();
+  savePrototypeSubmission(values);
+  showSuccess(values);
 });
 
 newEntryButton.addEventListener("click", () => {

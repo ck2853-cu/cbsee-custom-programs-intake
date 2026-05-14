@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Programs Submissions</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="page-shell header-inner">
+        <a class="brand-lockup" href="index.html" aria-label="Columbia Business School Executive Education">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span>Columbia Business School</span>
+            <span>Executive Education</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="index.html">Intake</a>
+          <a href="submissions.html" aria-current="page">Submissions</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="ops-band">
+        <div class="page-shell ops-header">
+          <div>
+            <p class="eyebrow">Custom Programs Sales</p>
+            <h1>Submitted Opportunities</h1>
+            <p>
+              Review web form intake results, qualification signals, and next-step ownership in one operating view.
+            </p>
+          </div>
+          <a class="secondary-link" href="index.html">New Intake</a>
+        </div>
+      </section>
+
+      <section class="submissions-band">
+        <div class="page-shell">
+          <div class="summary-strip" aria-label="Submission summary">
+            <div>
+              <span id="metric-total">0</span>
+              <p>Total submissions</p>
+            </div>
+            <div>
+              <span id="metric-priority">0</span>
+              <p>Priority opportunities</p>
+            </div>
+            <div>
+              <span id="metric-average">0</span>
+              <p>Average OQS</p>
+            </div>
+            <div>
+              <span id="metric-fast">0</span>
+              <p>0-6 month timelines</p>
+            </div>
+          </div>
+
+          <div class="table-toolbar">
+            <div class="form-field compact-field">
+              <label for="submission-search">Search</label>
+              <input id="submission-search" name="submission-search" type="search" autocomplete="off">
+            </div>
+            <div class="form-field compact-field">
+              <label for="priority-filter">Priority</label>
+              <select id="priority-filter" name="priority-filter">
+                <option value="all">All scores</option>
+                <option value="priority">Priority opportunity</option>
+                <option value="strong">Strong and above</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-frame">
+            <table class="submissions-table">
+              <thead>
+                <tr>
+                  <th scope="col">Received</th>
+                  <th scope="col">OQS</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Company</th>
+                  <th scope="col">Contact</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Seniority</th>
+                  <th scope="col">Industry</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Audience</th>
+                  <th scope="col">Timeline</th>
+                  <th scope="col">Budget</th>
+                  <th scope="col">Existing Client</th>
+                  <th scope="col">Business Challenge</th>
+                  <th scope="col">Objectives</th>
+                </tr>
+              </thead>
+              <tbody id="submissions-body"></tbody>
+            </table>
+          </div>
+          <p id="empty-state" class="empty-state" hidden>No submissions match the current filters.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="submissions.js"></script>
+  </body>
+</html>
